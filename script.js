@@ -139,11 +139,79 @@ class Firefly {
 
 const fireflies = Array.from({ length: FIREFLY_COUNT }, () => new Firefly());
 
+// ── Faíscas do halo ──
+const islandWrapper = document.querySelector('.island-wrapper');
+
+const SPARK_COLORS = [
+  [240, 180, 255],  // violeta claro
+  [255, 220, 120],  // dourado
+  [120, 240, 255],  // ciano
+  [200, 140, 255],  // lilás
+  [255, 255, 255],  // branco
+];
+
+class HaloSpark {
+  constructor() { this.reset(); }
+
+  reset() {
+    const rect = islandWrapper.getBoundingClientRect();
+    const cx = rect.left + rect.width * 0.50;
+    const cy = rect.top + rect.height * 0.55;
+    // raio base do anel interno (em px, aproximado)
+    const rx = rect.width * 0.40;
+    const ry = rect.height * 0.13;
+    const angle = Math.random() * Math.PI * 2;
+
+    this.x = cx + Math.cos(angle) * rx;
+    this.y = cy + Math.sin(angle) * ry;
+    // velocidade em direção radial + componente vertical suave
+    const speed = 0.5 + Math.random() * 1.4;
+    this.vx = Math.cos(angle) * speed * 1.8;
+    this.vy = Math.sin(angle) * speed * 0.45 - (0.4 + Math.random() * 0.8);
+    this.life = 1.0;
+    this.decay = 0.018 + Math.random() * 0.025;
+    this.size = 1.2 + Math.random() * 2.2;
+    this.rgb = SPARK_COLORS[Math.floor(Math.random() * SPARK_COLORS.length)];
+  }
+
+  update() {
+    this.x += this.vx;
+    this.y += this.vy;
+    this.vy -= 0.012;          // leve flutuação para cima
+    this.vx *= 0.97;
+    this.life -= this.decay;
+    if (this.life <= 0) this.reset();
+  }
+
+  draw() {
+    const [r, g, b] = this.rgb;
+    const a = this.life;
+    const glowR = this.size * 4;
+
+    const grd = ctx.createRadialGradient(this.x, this.y, 0, this.x, this.y, glowR);
+    grd.addColorStop(0, `rgba(${r},${g},${b},${(a * 0.9).toFixed(2)})`);
+    grd.addColorStop(0.5, `rgba(${r},${g},${b},${(a * 0.3).toFixed(2)})`);
+    grd.addColorStop(1, `rgba(${r},${g},${b},0)`);
+    ctx.beginPath();
+    ctx.arc(this.x, this.y, glowR, 0, Math.PI * 2);
+    ctx.fillStyle = grd;
+    ctx.fill();
+
+    ctx.beginPath();
+    ctx.arc(this.x, this.y, this.size * 0.4, 0, Math.PI * 2);
+    ctx.fillStyle = `rgba(${r},${g},${b},${Math.min(a * 1.2, 1).toFixed(2)})`;
+    ctx.fill();
+  }
+}
+
+const sparks = Array.from({ length: 22 }, () => new HaloSpark());
+
 // ── Loop de animação ──
 function animate() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   particles.forEach(p => { p.update(); p.draw(); });
   fireflies.forEach(f => { f.update(); f.draw(); });
+  sparks.forEach(s => { s.update(); s.draw(); });
   requestAnimationFrame(animate);
 }
 

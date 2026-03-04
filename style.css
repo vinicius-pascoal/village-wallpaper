@@ -223,6 +223,208 @@ body {
   }
 }
 
+/* ── Halos de energia da ilha ── */
+
+/* Base comum a todos os anéis */
+.island-halo {
+  position: absolute;
+  left: 50%;
+  top: 55%;
+  border-radius: 50%;
+  pointer-events: none;
+  mix-blend-mode: screen;
+  transform: translateX(-50%) translateY(-50%);
+}
+
+/* Portal de energia — disco de luz no plano da ilha */
+.island-portal {
+  position: absolute;
+  left: 50%;
+  top: 56%;
+  transform: translateX(-50%) translateY(-50%);
+  width: clamp(160px, 26vw, 360px);
+  height: clamp(18px, 2.8vw, 40px);
+  border-radius: 50%;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse 100% 100% at 50% 50%,
+      rgba(230, 160, 255, 0.55) 0%,
+      rgba(150, 70, 250, 0.38) 30%,
+      rgba(80, 20, 200, 0.18) 60%,
+      transparent 100%);
+  filter: blur(6px);
+  animation: portal-breathe 3s ease-in-out infinite;
+  mix-blend-mode: screen;
+}
+
+/* Anél interno — brilho intenso, pulso rápido */
+.island-halo--inner {
+  width: clamp(148px, 24vw, 325px);
+  height: clamp(17px, 2.5vw, 36px);
+  border: 2px solid rgba(240, 180, 255, 0.95);
+  box-shadow:
+    0 0 5px rgba(255, 200, 255, 0.90),
+    0 0 14px rgba(210, 120, 255, 0.80),
+    0 0 32px rgba(170, 70, 240, 0.55),
+    0 0 60px rgba(130, 40, 220, 0.30),
+    inset 0 0 8px rgba(255, 220, 255, 0.40);
+  animation: halo-inner 2.6s ease-in-out infinite;
+}
+
+/* Arco 1 — gira no sentido horário, branco-violeta */
+.island-halo--inner::before {
+  content: '';
+  position: absolute;
+  inset: -4px;
+  border-radius: 50%;
+  border: 3px solid transparent;
+  border-top-color: rgba(255, 240, 255, 1.00);
+  border-right-color: rgba(220, 150, 255, 0.55);
+  border-bottom-color: rgba(190, 100, 255, 0.15);
+  filter: blur(1px);
+  animation: halo-spin-cw 2.8s linear infinite;
+}
+
+/* Arco 2 — gira no sentido anti-horário, dourado */
+.island-halo--inner::after {
+  content: '';
+  position: absolute;
+  inset: -4px;
+  border-radius: 50%;
+  border: 2px solid transparent;
+  border-bottom-color: rgba(255, 220, 120, 0.80);
+  border-left-color: rgba(255, 180, 60, 0.35);
+  filter: blur(2px);
+  animation: halo-spin-ccw 5.5s linear infinite;
+}
+
+/* Anél médio — teal-ciano, pulso descasado */
+.island-halo--mid {
+  width: clamp(185px, 30vw, 405px);
+  height: clamp(22px, 3.4vw, 46px);
+  border: 1.5px solid rgba(80, 220, 230, 0.65);
+  box-shadow:
+    0 0 10px rgba(60, 210, 230, 0.55),
+    0 0 28px rgba(40, 180, 210, 0.35),
+    0 0 55px rgba(20, 130, 190, 0.18);
+  animation: halo-mid 4s ease-in-out infinite 0.9s;
+}
+
+/* Arco 3 — ciano brilhante, sentido horário lento */
+.island-halo--mid::before {
+  content: '';
+  position: absolute;
+  inset: -3px;
+  border-radius: 50%;
+  border: 2px solid transparent;
+  border-top-color: rgba(130, 245, 255, 0.95);
+  border-left-color: rgba(60, 200, 230, 0.40);
+  filter: blur(1.5px);
+  animation: halo-spin-cw 6s linear infinite reverse;
+}
+
+/* Arco 4 — lilás suave, anti-horário muito lento */
+.island-halo--mid::after {
+  content: '';
+  position: absolute;
+  inset: -3px;
+  border-radius: 50%;
+  border: 1.5px solid transparent;
+  border-right-color: rgba(200, 140, 255, 0.70);
+  border-bottom-color: rgba(160, 100, 240, 0.30);
+  filter: blur(2px);
+  animation: halo-spin-ccw 11s linear infinite;
+}
+
+/* Anél externo — difuso, respiração lenta */
+.island-halo--outer {
+  width: clamp(225px, 38vw, 510px);
+  height: clamp(28px, 4.5vw, 60px);
+  border: 1px solid rgba(160, 90, 240, 0.30);
+  box-shadow:
+    0 0 20px rgba(140, 70, 230, 0.22),
+    0 0 55px rgba(100, 40, 200, 0.14),
+    0 0 90px rgba(70, 20, 170, 0.08);
+  animation: halo-outer 7s ease-in-out infinite 2.2s;
+}
+
+/* ── Keyframes dos halos ── */
+@keyframes portal-breathe {
+
+  0%,
+  100% {
+    opacity: 0.50;
+    transform: translateX(-50%) translateY(-50%) scaleX(0.90);
+  }
+
+  50% {
+    opacity: 1.00;
+    transform: translateX(-50%) translateY(-50%) scaleX(1.10);
+  }
+}
+
+@keyframes halo-inner {
+
+  0%,
+  100% {
+    opacity: 0.60;
+    transform: translateX(-50%) translateY(-50%) scaleX(1.00);
+  }
+
+  50% {
+    opacity: 1.00;
+    transform: translateX(-50%) translateY(-50%) scaleX(1.05);
+  }
+}
+
+@keyframes halo-mid {
+
+  0%,
+  100% {
+    opacity: 0.30;
+    transform: translateX(-50%) translateY(-50%) scaleX(1.00);
+  }
+
+  50% {
+    opacity: 0.80;
+    transform: translateX(-50%) translateY(-50%) scaleX(1.07);
+  }
+}
+
+@keyframes halo-outer {
+
+  0%,
+  100% {
+    opacity: 0.15;
+    transform: translateX(-50%) translateY(-50%) scaleX(1.00);
+  }
+
+  50% {
+    opacity: 0.45;
+    transform: translateX(-50%) translateY(-50%) scaleX(1.12);
+  }
+}
+
+@keyframes halo-spin-cw {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes halo-spin-ccw {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(-360deg);
+  }
+}
+
 /* ── Ilha flutuante ── */
 .island-wrapper {
   position: absolute;
