@@ -63,7 +63,118 @@ body {
   will-change: transform, opacity;
 }
 
+/* ── Neblina de profundidade ── */
+.mist {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 40%;
+  pointer-events: none;
+  background: linear-gradient(to top,
+      rgba(190, 215, 235, 0.38) 0%,
+      rgba(190, 215, 235, 0.18) 40%,
+      transparent 100%);
+  animation: mist-breathe 9s ease-in-out infinite alternate;
+}
+
+.mist::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: -8%;
+  width: 116%;
+  height: 55%;
+  background: radial-gradient(ellipse at 50% 100%, rgba(170, 205, 230, 0.28) 0%, transparent 68%);
+  animation: mist-shift 13s ease-in-out infinite alternate-reverse;
+}
+
+/* ── Cachoeira ── */
+.waterfall {
+  position: absolute;
+  /* cai a partir do fundo da ilha em direção à sombra */
+  top: 72%;
+  left: calc(50% - 18px);
+  width: 5px;
+  height: 55px;
+  border-radius: 3px;
+  background: repeating-linear-gradient(to bottom,
+      rgba(160, 225, 255, 0.95) 0px,
+      rgba(100, 185, 245, 0.65) 6px,
+      rgba(160, 225, 255, 0.95) 12px);
+  background-size: 100% 12px;
+  animation: waterfall-flow 0.28s linear infinite;
+  filter: blur(0.6px);
+  pointer-events: none;
+}
+
+.waterfall-splash {
+  position: absolute;
+  top: calc(72% + 50px);
+  left: calc(50% - 18px);
+  width: 22px;
+  height: 8px;
+  background: radial-gradient(ellipse at center, rgba(140, 210, 255, 0.55) 0%, transparent 72%);
+  border-radius: 50%;
+  animation: splash-pulse 0.6s ease-in-out infinite alternate;
+  pointer-events: none;
+}
+
+/* ── Canvas partículas ── */
+#particles {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 10;
+}
+
 /* ── Animações ── */
+@keyframes mist-breathe {
+  from {
+    opacity: 0.7;
+    transform: translateY(0);
+  }
+
+  to {
+    opacity: 1.0;
+    transform: translateY(-6px);
+  }
+}
+
+@keyframes mist-shift {
+  from {
+    transform: translateX(-4%);
+  }
+
+  to {
+    transform: translateX(4%);
+  }
+}
+
+@keyframes waterfall-flow {
+  from {
+    background-position: 0 0;
+  }
+
+  to {
+    background-position: 0 12px;
+  }
+}
+
+@keyframes splash-pulse {
+  from {
+    transform: scaleX(1);
+    opacity: 0.55;
+  }
+
+  to {
+    transform: scaleX(1.4);
+    opacity: 0.2;
+  }
+}
+
 @keyframes float {
 
   0%,

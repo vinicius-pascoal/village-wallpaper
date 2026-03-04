@@ -9,14 +9,23 @@
 <body>
 
   <div class="wallpaper">
+    <!-- Canvas de partículas (mais ao fundo) -->
+    <canvas id="particles"></canvas>
+
     <!-- Fundo: vila -->
     <img class="bg-village" src="imgs/vila.png" alt="Vila">
 
     <!-- Ilha flutuante central inferior -->
     <div class="island-wrapper">
       <img class="island" src="imgs/ilha.png" alt="Ilha Flutuante">
+      <!-- Cachoeira -->
+      <div class="waterfall"></div>
+      <div class="waterfall-splash"></div>
       <div class="island-shadow"></div>
     </div>
+
+    <!-- Neblina de profundidade -->
+    <div class="mist"></div>
   </div>
 
   <script src="script.js"></script>
