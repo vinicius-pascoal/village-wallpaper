@@ -63,30 +63,129 @@ body {
   will-change: transform, opacity;
 }
 
-/* ── Neblina de profundidade ── */
-.mist {
+/* ── Neblina mística ── */
+
+/* Base densa — fundo de cor violeta-azul fria */
+.mist-base {
   position: absolute;
   bottom: 0;
   left: 0;
   width: 100%;
-  height: 40%;
+  height: 48%;
   pointer-events: none;
-  background: linear-gradient(to top,
-      rgba(190, 215, 235, 0.38) 0%,
-      rgba(190, 215, 235, 0.18) 40%,
+  z-index: 4;
+  background:
+    linear-gradient(to top,
+      rgba(55, 28, 110, 0.54) 0%,
+      rgba(80, 45, 140, 0.28) 35%,
+      rgba(60, 20, 100, 0.10) 65%,
       transparent 100%);
-  animation: mist-breathe 9s ease-in-out infinite alternate;
+  animation: mist-breathe 11s ease-in-out infinite alternate;
 }
 
-.mist::after {
-  content: '';
+/* Camada média — deriva lateral lenta, tons teal-lavanda */
+.mist-mid {
   position: absolute;
   bottom: 0;
-  left: -8%;
-  width: 116%;
-  height: 55%;
-  background: radial-gradient(ellipse at 50% 100%, rgba(170, 205, 230, 0.28) 0%, transparent 68%);
-  animation: mist-shift 13s ease-in-out infinite alternate-reverse;
+  left: -10%;
+  width: 120%;
+  height: 36%;
+  pointer-events: none;
+  z-index: 5;
+  background:
+    radial-gradient(ellipse 80% 55% at 30% 100%, rgba(70, 180, 200, 0.22) 0%, transparent 65%),
+    radial-gradient(ellipse 70% 50% at 75% 100%, rgba(120, 70, 200, 0.20) 0%, transparent 62%),
+    radial-gradient(ellipse 90% 40% at 52% 100%, rgba(140, 90, 220, 0.16) 0%, transparent 70%);
+  animation: mist-drift 16s ease-in-out infinite alternate;
+  filter: blur(8px);
+}
+
+/* Tentáculos de névoa — filamentos que sobem pelas laterais */
+.mist-tendrils {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 65%;
+  pointer-events: none;
+  z-index: 3;
+  background:
+    radial-gradient(ellipse 18% 60% at 8% 100%, rgba(130, 60, 210, 0.18) 0%, transparent 75%),
+    radial-gradient(ellipse 14% 50% at 22% 100%, rgba(70, 170, 200, 0.14) 0%, transparent 70%),
+    radial-gradient(ellipse 16% 55% at 50% 100%, rgba(160, 80, 230, 0.16) 0%, transparent 72%),
+    radial-gradient(ellipse 12% 45% at 72% 100%, rgba(60, 190, 195, 0.13) 0%, transparent 68%),
+    radial-gradient(ellipse 18% 60% at 92% 100%, rgba(120, 55, 200, 0.18) 0%, transparent 75%);
+  animation: mist-tendrils-sway 19s ease-in-out infinite alternate;
+  filter: blur(14px);
+}
+
+/* Véu superior — leve haze que envolve o topo da cena */
+.mist-veil {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 30%;
+  pointer-events: none;
+  z-index: 3;
+  background: linear-gradient(to bottom,
+      rgba(40, 15, 80, 0.32) 0%,
+      rgba(70, 30, 120, 0.12) 55%,
+      transparent 100%);
+  animation: mist-breathe 14s ease-in-out infinite alternate-reverse;
+}
+
+/* Vinheta geral — escurece as bordas para focar no centro */
+.vignette {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 6;
+  background: radial-gradient(ellipse 85% 80% at 50% 50%,
+      transparent 40%,
+      rgba(15, 5, 40, 0.45) 100%);
+}
+
+/* ── Animações da neblina ── */
+@keyframes mist-breathe {
+  from {
+    opacity: 0.65;
+    transform: translateY(0);
+  }
+
+  to {
+    opacity: 1.00;
+    transform: translateY(-8px);
+  }
+}
+
+@keyframes mist-drift {
+  from {
+    transform: translateX(-5%) scaleY(0.92);
+    opacity: 0.75;
+  }
+
+  to {
+    transform: translateX(5%) scaleY(1.08);
+    opacity: 1.00;
+  }
+}
+
+@keyframes mist-tendrils-sway {
+  0% {
+    transform: translateX(-3%) skewX(-1deg);
+    opacity: 0.70;
+  }
+
+  50% {
+    transform: translateX(2%) skewX(1deg);
+    opacity: 1.00;
+  }
+
+  100% {
+    transform: translateX(-4%) skewX(-2deg);
+    opacity: 0.80;
+  }
 }
 
 /* ── Cachoeira ── */
@@ -131,28 +230,6 @@ body {
 }
 
 /* ── Animações ── */
-@keyframes mist-breathe {
-  from {
-    opacity: 0.7;
-    transform: translateY(0);
-  }
-
-  to {
-    opacity: 1.0;
-    transform: translateY(-6px);
-  }
-}
-
-@keyframes mist-shift {
-  from {
-    transform: translateX(-4%);
-  }
-
-  to {
-    transform: translateX(4%);
-  }
-}
-
 @keyframes waterfall-flow {
   from {
     background-position: 0 0;
