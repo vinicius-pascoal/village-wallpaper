@@ -9,6 +9,28 @@ function resize() {
 resize();
 window.addEventListener('resize', resize);
 
+// ── Relógio místico ──
+const elH = document.getElementById('clock-h');
+const elM = document.getElementById('clock-m');
+const elS = document.getElementById('clock-s');
+const elDate = document.getElementById('clock-date');
+
+const DAYS = ['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'];
+const MONTHS = ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'];
+
+function pad(n) { return String(n).padStart(2, '0'); }
+
+function tickClock() {
+  const now = new Date();
+  elH.textContent = pad(now.getHours());
+  elM.textContent = pad(now.getMinutes());
+  elS.textContent = pad(now.getSeconds());
+  elDate.textContent = `${DAYS[now.getDay()]}  •  ${now.getDate()} ${MONTHS[now.getMonth()]} ${now.getFullYear()}`;
+}
+
+tickClock();
+setInterval(tickClock, 1000);
+
 const PARTICLE_COUNT = 45;
 const COLORS = [
   'rgba(180, 220, 110, 0.72)',  // folha verde clara
