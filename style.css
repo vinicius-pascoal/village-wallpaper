@@ -1,0 +1,94 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html,
+body {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: #0d0d1a;
+}
+
+/* ── Wrapper principal ── */
+.wallpaper {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* ── Imagem de fundo: vila ── */
+.bg-village {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+  /* leve scale para dar profundidade durante o parallax */
+  transform-origin: center top;
+  will-change: transform;
+}
+
+/* ── Ilha flutuante ── */
+.island-wrapper {
+  position: absolute;
+  bottom: 6%;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  animation: float 4s ease-in-out infinite;
+  will-change: transform;
+}
+
+.island {
+  display: block;
+  width: clamp(280px, 38vw, 640px);
+  height: auto;
+  filter: drop-shadow(0 20px 40px rgba(0, 0, 0, 0.55));
+}
+
+/* Sombra elíptica sob a ilha */
+.island-shadow {
+  width: 55%;
+  height: 18px;
+  background: radial-gradient(ellipse at center, rgba(0, 0, 0, 0.45) 0%, transparent 75%);
+  margin-top: -10px;
+  border-radius: 50%;
+  animation: shadow-pulse 4s ease-in-out infinite;
+  will-change: transform, opacity;
+}
+
+/* ── Animações ── */
+@keyframes float {
+
+  0%,
+  100% {
+    transform: translateX(-50%) translateY(0);
+  }
+
+  50% {
+    transform: translateX(-50%) translateY(-18px);
+  }
+}
+
+@keyframes shadow-pulse {
+
+  0%,
+  100% {
+    transform: scaleX(1);
+    opacity: 0.6;
+  }
+
+  50% {
+    transform: scaleX(0.8);
+    opacity: 0.3;
+  }
+}
