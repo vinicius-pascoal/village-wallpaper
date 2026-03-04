@@ -32,6 +32,110 @@ body {
   object-position: center top;
 }
 
+/* ── God rays ── */
+.god-rays {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 220%;
+  height: 110vh;
+  transform: translateX(-50%);
+  transform-origin: top center;
+  pointer-events: none;
+  z-index: 2;
+  mix-blend-mode: screen;
+}
+
+.ray {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  height: 110vh;
+  transform-origin: top center;
+  background: linear-gradient(to bottom,
+      rgba(190, 140, 255, 0.22) 0%,
+      rgba(150, 100, 240, 0.10) 38%,
+      transparent 72%);
+  filter: blur(18px);
+}
+
+.ray:nth-child(1) {
+  width: 9vw;
+  transform: translateX(-50%) rotate(-38deg);
+  animation: ray-pulse 8s ease-in-out infinite 0.0s;
+}
+
+.ray:nth-child(2) {
+  width: 5vw;
+  transform: translateX(-50%) rotate(-20deg);
+  animation: ray-pulse 11s ease-in-out infinite 1.3s;
+}
+
+.ray:nth-child(3) {
+  width: 12vw;
+  transform: translateX(-50%) rotate(-6deg);
+  animation: ray-pulse 7s ease-in-out infinite 0.7s;
+}
+
+.ray:nth-child(4) {
+  width: 12vw;
+  transform: translateX(-50%) rotate(6deg);
+  animation: ray-pulse 9s ease-in-out infinite 2.1s;
+}
+
+.ray:nth-child(5) {
+  width: 5vw;
+  transform: translateX(-50%) rotate(22deg);
+  animation: ray-pulse 10s ease-in-out infinite 0.4s;
+}
+
+.ray:nth-child(6) {
+  width: 8vw;
+  transform: translateX(-50%) rotate(40deg);
+  animation: ray-pulse 6s ease-in-out infinite 1.8s;
+}
+
+@keyframes ray-pulse {
+
+  0%,
+  100% {
+    opacity: 0.25;
+  }
+
+  50% {
+    opacity: 1.00;
+  }
+}
+
+/* ── Reflexo de luz na neblina ── */
+.mist-glow {
+  position: absolute;
+  bottom: 14%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60vw;
+  height: 32vh;
+  pointer-events: none;
+  z-index: 5;
+  background:
+    radial-gradient(ellipse 70% 60% at 50% 90%, rgba(210, 160, 255, 0.26) 0%, rgba(130, 70, 220, 0.12) 45%, transparent 70%),
+    radial-gradient(ellipse 40% 35% at 50% 100%, rgba(255, 200, 130, 0.10) 0%, transparent 60%);
+  filter: blur(22px);
+  animation: glow-pulse 7s ease-in-out infinite alternate;
+}
+
+@keyframes glow-pulse {
+  from {
+    opacity: 0.55;
+    transform: translateX(-50%) scaleX(0.88);
+  }
+
+  to {
+    opacity: 1.00;
+    transform: translateX(-50%) scaleX(1.12);
+  }
+}
+
 /* ── Ilha flutuante ── */
 .island-wrapper {
   position: absolute;
@@ -149,13 +253,11 @@ body {
 /* ── Animações da neblina ── */
 @keyframes mist-breathe {
   from {
-    opacity: 0.65;
-    transform: translateY(0);
+    opacity: 0.60;
   }
 
   to {
     opacity: 1.00;
-    transform: translateY(-8px);
   }
 }
 

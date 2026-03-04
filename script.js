@@ -56,9 +56,72 @@ class Particle {
 
 const particles = Array.from({ length: PARTICLE_COUNT }, () => new Particle());
 
+// ── Vagalumes ──
+const FIREFLY_COUNT = 30;
+const FIREFLY_PALETTES = [
+  [150, 255, 120],  // verde vibrante
+  [190, 255, 160],  // verde-amarelo
+  [210, 245, 80],  // amarelo
+  [170, 210, 255],  // azul místico
+  [210, 160, 255],  // lavanda
+];
+
+class Firefly {
+  constructor() { this.reset(true); }
+
+  reset(initial = false) {
+    this.x = Math.random() * canvas.width;
+    this.y = initial
+      ? canvas.height * 0.25 + Math.random() * canvas.height * 0.70
+      : canvas.height + 10;
+    this.radius = 1.0 + Math.random() * 1.8;
+    this.speedX = (Math.random() - 0.5) * 0.45;
+    this.speedY = -(0.15 + Math.random() * 0.45);
+    this.phase = Math.random() * Math.PI * 2;
+    this.phaseSpd = 0.010 + Math.random() * 0.028;
+    this.wobble = Math.random() * Math.PI * 2;
+    this.wobbleSpd = 0.008 + Math.random() * 0.018;
+    this.rgb = FIREFLY_PALETTES[Math.floor(Math.random() * FIREFLY_PALETTES.length)];
+  }
+
+  update() {
+    this.phase += this.phaseSpd;
+    this.wobble += this.wobbleSpd;
+    this.x += this.speedX + Math.sin(this.wobble) * 0.5;
+    this.y += this.speedY;
+    if (this.y < -10) this.reset();
+  }
+
+  draw() {
+    const alpha = Math.sin(this.phase) * 0.5 + 0.5;
+    const [r, g, b] = this.rgb;
+    const glowR = this.radius * 7;
+
+    // halo externo
+    const grd = ctx.createRadialGradient(this.x, this.y, 0, this.x, this.y, glowR);
+    grd.addColorStop(0, `rgba(${r},${g},${b},${(alpha * 0.50).toFixed(2)})`);
+    grd.addColorStop(0.4, `rgba(${r},${g},${b},${(alpha * 0.15).toFixed(2)})`);
+    grd.addColorStop(1, `rgba(${r},${g},${b},0)`);
+    ctx.beginPath();
+    ctx.arc(this.x, this.y, glowR, 0, Math.PI * 2);
+    ctx.fillStyle = grd;
+    ctx.fill();
+
+    // ponto central brilhante
+    ctx.beginPath();
+    ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+    ctx.fillStyle = `rgba(${r},${g},${b},${Math.min(alpha * 1.3, 1).toFixed(2)})`;
+    ctx.fill();
+  }
+}
+
+const fireflies = Array.from({ length: FIREFLY_COUNT }, () => new Firefly());
+
+// ── Loop de animação ──
 function animate() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   particles.forEach(p => { p.update(); p.draw(); });
+  fireflies.forEach(f => { f.update(); f.draw(); });
   requestAnimationFrame(animate);
 }
 
