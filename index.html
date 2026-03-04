@@ -33,13 +33,22 @@
 
     <!-- Ilha flutuante central inferior -->
     <div class="island-wrapper">
-      <!-- Halos de energia -->
-      <div class="island-portal"></div>
-      <div class="island-halo island-halo--outer"></div>
-      <div class="island-halo island-halo--mid"></div>
-      <div class="island-halo island-halo--inner"></div>
+      <!-- Halos traseiros: metade superior passa atrás da ilha -->
+      <div class="island-portal halo-back"></div>
+      <div class="island-halo island-halo--outer halo-back"></div>
+      <div class="island-halo island-halo--mid halo-back"></div>
+      <div class="island-halo island-halo--inner halo-back"></div>
+
+      <!-- Ilha -->
       <img class="island" src="imgs/ilha.png" alt="Ilha Flutuante">
-      <!-- Cachoeira -->
+
+      <!-- Halos frontais: metade inferior passa na frente da ilha -->
+      <div class="island-portal halo-front"></div>
+      <div class="island-halo island-halo--outer halo-front"></div>
+      <div class="island-halo island-halo--mid halo-front"></div>
+      <div class="island-halo island-halo--inner halo-front"></div>
+
+      <!-- Cachoeira e sombra -->
       <div class="waterfall"></div>
       <div class="waterfall-splash"></div>
       <div class="island-shadow"></div>
